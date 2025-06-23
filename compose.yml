@@ -1,0 +1,36 @@
+services:
+    vllm-models:
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities:
+                              - gpu
+        volumes:
+            - ~/.cache/huggingface:/root/.cache/huggingface
+            - ./models:/models
+        environment:
+            - MAX_MODEL_LEN=50000
+        ports:
+            - 8000:8000
+        ipc: host
+        image: vllm/vllm-openai:latest
+        networks:
+            - travel-net
+        command: --model /models/meta-llama/Llama-3.1-8B-Instruct
+
+    crew_container:
+        build: ./app
+        ports:
+            - "80:80"
+        environment:
+            - EXA_API_KEY=${EXA_API_KEY}
+        depends_on:
+            - vllm-models
+        networks:
+            - travel-net
+networks:
+  travel-net:
+    name: travel-net

@@ -1,0 +1,15 @@
+FROM python:3.12
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY agents.py /app/
+COPY crew.py /app/
+COPY api.py /app/
+COPY tasks.py /app/
+COPY tools /app/tools
+
+CMD ["fastapi", "run", "/app/api.py", "--port", "80"]
