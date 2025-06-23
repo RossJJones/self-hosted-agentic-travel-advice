@@ -13,7 +13,7 @@ from tools.search_tools import SearchTools
 class TravelAgents:
     def __init__(self):
         self.llm = LLM(
-            model="hosted_vllm/models/meta-llama/Llama-3.1-8B-Instruct",
+            model="hosted_vllm//models/meta-llama/Llama-3.1-8B-Instruct",
             api_base="http://vllm-models:8000/v1",
         )
 
